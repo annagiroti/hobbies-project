@@ -15,4 +15,5 @@ public interface PersonService {
     public List<Hobby> getHobbiesForPerson(String personID);
     public String updateHobbyForPerson(String personID, String hobbyID, Hobby hobby);
     public String deleteHobbyFromPerson(String personID, String hobbyID);
+    public List<Person> findPeopleByHobbyName(String hobbyName);
 }

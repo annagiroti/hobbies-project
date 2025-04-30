@@ -84,4 +84,9 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
         return "Success";
     }
+
+    @Override
+    public List<Person> findPeopleByHobbyName(String hobbyName){
+        return personRepository.findByHobbies_HobbyName(hobbyName);
+    }
 }

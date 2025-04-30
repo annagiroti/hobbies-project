@@ -66,4 +66,9 @@ public class PersonController {
         personService.deleteHobbyFromPerson(personID, hobbyID);
         return "Hobby removed from person successfully";
     }
+
+    @GetMapping("/search-by-hobby")
+    public List<Person> findPeopleByHobbyName(@RequestParam String hobbyName) {
+        return personService.findPeopleByHobbyName(hobbyName);
+    }
 }
