@@ -5,23 +5,38 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Entity class representing a Person
+ * Each Person can have multiple Hobbies (One-to-Many relationship)
+ */
 @Entity
-@Table(name="person_info")
+@Table(name = "person_info")
 public class Person {
+
+    // Primary key of the Person entity
     @Id
     private String personID;
     private String personName;
     private String personPhoneNumber;
     private String personAddress;
 
+    /**
+     * One-to-Many relationship with Hobby entity.
+     * 'mappedBy' indicates that the 'person' field in Hobby owns the relationship
+     * 'cascade = CascadeType.ALL' propagates all persistence operations to hobbies
+     * 'orphanRemoval = true' ensures that if a hobby is removed from the list,
+     * it will also be removed from the database
+     */
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference  // Prevents circular reference during JSON serialization
     private List<Hobby> hobbies = new ArrayList<>();
 
+    // Default no-args constructor required by JPA
     public Person() {
     }
+
+    // Constructor to initialize Person fields
     public Person(String personID, String personName, String personPhoneNumber, String personAddress) {
         this.personID = personID;
         this.personName = personName;
@@ -29,6 +44,7 @@ public class Person {
         this.personAddress = personAddress;
     }
 
+    // Getters and Setters
     public String getPersonID() {
         return personID;
     }
@@ -69,15 +85,19 @@ public class Person {
         this.hobbies = hobbies;
     }
 
+    // Add a hobby to this person and set the back-reference
     public void addHobby(Hobby hobby) {
         hobby.setPerson(this);
         this.hobbies.add(hobby);
     }
 
+    // Remove a hobby from this person and clear the back-reference
     public void removeHobby(Hobby hobby) {
         this.hobbies.remove(hobby);
         hobby.setPerson(null);
     }
+
+    // Unused code in current set-up, can be toggled back on - app hasn't been tested with it on
 
 //    @Override
 //    public boolean equals(Object o) {
